@@ -2,27 +2,29 @@ import React from 'react';
 
 export default class App extends React.Component {
   // your Javascript goes here
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       balance: 0,
       rate: 0,
+      term: '',
     }
   }
 
-  // handleClick() {
-  //   const calculator = this;
-  // }
-
-  render(){
-    return(
-      <div>
-        content
-      </div>
-    )
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+    console.log(this.state);
   }
-  
+
+  calculate() {
+    // const balance = this.state.balance;
+    // const rate = this.state.rate;
+    // const term = this.state.term;
+
+    let mortgage = Math.pow(this.state.rate + 1)*this.state.rate / Math.pow(this.state.rate + 1) - 1;
+  }
+
   render() {
     return (
       <div className='container'>
@@ -32,27 +34,26 @@ export default class App extends React.Component {
           </div>
           <form>
             <div className='form-group'>
-              <label for='balance'>Balance</label>
-              <input className='form-control' name='balance' type='number'></input>
+              <label for='balance'>Loan Balance</label>
+              <input className='form-control' name='balance' type='number' onChange={this.handleChange.bind(this)}></input>
             </div>
             <div className='form-group'>
-            <label for='rate'>Rate</label>
-              <input className='form-control' name='rate' type='number' step='0.01'></input>
+              <label for='rate'>Interest Rate (%)</label>
+              <input className='form-control' name='rate' type='number' step='0.01' onChange={this.handleChange.bind(this)}></input>
             </div>
             <div className='form-group'>
-              <label for='term'>Term</label>
-              <select className='form-control' name='term'>
-                <option>15</option>
-                <option>30</option>
+              <label for='term'>Loan Term (years)</label>
+              <select value={this.state.term} className='form-control' name='term' onChange={this.handleChange.bind(this)}>
+                <option value='15'>15</option>
+                <option value='30'>30</option>
               </select>
             </div>
             <div className='form-group'>
-              <button name='submit' /* onClick={calculate} */>Calculate</button>
+              <button name='submit' onClick={this.calculate.bind(this)}>Calculate</button>
             </div>
-            <div className='col-md-1 output' id='output'></div>
+            <div className='col-md-1 output' id='output'>{mortgage}</div>
           </form>
         </div>
-         {/* your JSX goes here */}
       </div>
     );
   }
