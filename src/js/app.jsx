@@ -14,16 +14,19 @@ export default class App extends React.Component {
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    console.log(this.state);
   }
 
   calculate() {
-    // const balance = this.state.balance;
-    // const rate = this.state.rate;
-    // const term = this.state.term;
+    let amount = this.state.balance;
+    let rate = this.state.rate/1200;
+    let term = this.state.term*12;
+    
 
-    let mortgage = Math.pow(this.state.rate + 1)*this.state.rate / Math.pow(this.state.rate + 1) - 1;
+    mortgage = amount*(rate * Math.pow((1 + rate),term))/(Math.pow((1 + rate), term) - 1);
+    return mortgage;
+    
   }
+  
 
   render() {
     return (
@@ -51,7 +54,9 @@ export default class App extends React.Component {
             <div className='form-group'>
               <button name='submit' onClick={this.calculate.bind(this)}>Calculate</button>
             </div>
-            <div className='col-md-1 output' id='output'>{mortgage}</div>
+            <div className='col-md-1 output' id='output'>
+              <p>{this.calculate}</p>
+            </div>
           </form>
         </div>
       </div>
