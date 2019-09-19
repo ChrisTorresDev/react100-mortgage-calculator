@@ -3,13 +3,13 @@ import React from 'react';
 export default class App extends React.Component {
   // your Javascript goes here
   constructor() {
-    super()
+    super();
 
     this.state = {
       balance: '',
       rate: '',
-      term: '',
-      submit: 0,
+      term: '15',
+      submit: 0
     }
     this.handleChange = this.handleChange.bind(this);
     this.calculate = this.calculate.bind(this);
@@ -25,13 +25,11 @@ export default class App extends React.Component {
     let rate = this.state.rate / 100 / 12;
     let term = this.state.term * 12;
 
-    let payment = amount*(rate * Math.pow((1 + rate), term))/(Math.pow((1 + rate), term) - 1);
+    let payment = (amount * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
     
     this.setState(
       {submit: payment.toFixed(2)}
-      )
-   
-    return payment;
+      );
   }
 
   render() {
@@ -62,7 +60,7 @@ export default class App extends React.Component {
               <button name='submit' onClick={(e) => this.calculate(e)}>Calculate</button>
             </div>
             <div className='col-md-1 output' id='output'>
-              <p>{this.state.submit} is your payment.</p>
+              <p>${this.state.submit} is your payment.</p>
             </div>
           </form>
         </div>
